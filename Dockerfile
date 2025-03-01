@@ -1,4 +1,4 @@
-FROM scratch
+FROM alpine:latest
 RUN touch /test123
 
 #FROM alpine:latest AS base
