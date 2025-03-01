@@ -1,0 +1,11 @@
+*.tar*
+*.vim*
+*.log
+*.old
+*.cif
+*.pdf
+*.png
+*.jpg
+*.bak*
+
+
