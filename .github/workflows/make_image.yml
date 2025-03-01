@@ -5,6 +5,7 @@ on:
       - '*'
 jobs:
   make_image:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
