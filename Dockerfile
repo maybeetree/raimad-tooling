@@ -37,4 +37,5 @@ COPY ./stage-finalize /app
 WORKDIR /app
 RUN ./finalize.sh
 WORKDIR /pwd
+CMD ["/usr/local/bin/tooling-summary.sh"]
 

@@ -13,7 +13,7 @@ the RAIMAD codebase.
 First, pull the image from github:
 
 ```shell
-TODO
+docker pull ghcr.io/maybeetree/raimad-tooling:latest
 ```
 
 Or, build the container locally:
@@ -26,37 +26,43 @@ docker build -t raimad-tooling .
 Note: this will take hours.
 
 The default container command is to launch the built-in
-`tooling.sh` script and generate an overview
+`tooling-summary.sh` script and generate an overview
 of RAIMAD's code quality:
 
 ```shell
-docker run -v "/path/to/raimad/repo:/pwd:ro" raimad-tooling
+docker run -v "/path/to/raimad/repo:/pwd" raimad-tooling
 ```
+# TODO make it work with mount /pwd as ro
 
 Sample output:
 ```
-TODO
+TOOLING_UNITTEST_3.13=true  # Did unittests pass?
+TOOLING_UNITTEST_3.12=true  # Did unittests pass?
+TOOLING_UNITTEST_3.11=true  # Did unittests pass?
+TOOLING_UNITTEST_3.10=true  # Did unittests pass?
+TOOLING_MYPY=true  # Were there NO mypy issues?
+TOOLING_COVERAGE=89  # Percentage of codebase covered by tests
+TOOLING_TODOS=67  # How many TODOs and FIXMEs are in the code?
+TOOLING_RUFF=107  # How many issues reported by ruff?
 ```
+
+The script should exit with code 0,
+otherwise that means an error occurred.
 
 To find out more, you can run different pieces of tooling individually:
 
 ```
 # Run the test suite in different python versions
 
-docker run -v "/path/to/raimad/repo:/pwd:ro" raimad-tooling python3.10 -m unittest
-docker run -v "/path/to/raimad/repo:/pwd:ro" raimad-tooling python3.11 -m unittest
-docker run -v "/path/to/raimad/repo:/pwd:ro" raimad-tooling python3.12 -m unittest
+docker run -v "/path/to/raimad/repo:/pwd" raimad-tooling python3.10 -m unittest
+docker run -v "/path/to/raimad/repo:/pwd" raimad-tooling python3.11 -m unittest
+docker run -v "/path/to/raimad/repo:/pwd" raimad-tooling python3.12 -m unittest
 
 # Run mypy
-docker run -v "/path/to/raimad/repo:/pwd:ro" raimad-tooling python3.12 -m mypy
+docker run -v "/path/to/raimad/repo:/pwd" raimad-tooling python3.12 -m mypy
 
 # Run ruff
-docker run -v "/path/to/raimad/repo:/pwd:ro" raimad-tooling python3.12 -m ruff
-
-# Run coverage
-docker run -v "/path/to/raimad/repo:/pwd:ro" raimad-tooling python3.12 -m coverage -m unittest
-
-TODO verify commands
+docker run -v "/path/to/raimad/repo:/pwd" raimad-tooling python3.12 -m ruff
 
 ```
 
@@ -80,7 +86,7 @@ as it will result in duplicating the python build directory
 on disk.
 I can't think of any way to avoid this
 (mount a volume while building? Hardlink? Reflink?)
-that avoids this.
+that works without going behind docker/podman's back.
 
 
 
