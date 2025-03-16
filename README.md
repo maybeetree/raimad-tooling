@@ -60,6 +60,28 @@ TODO verify commands
 
 ```
 
+## Manual caching
+
+If you're making any major changes to the dockerfile,
+it can be a pain to wait for the pythons to rebuild every time.
+You can re-use python builds from previous iterations
+of the docker image by copying them into the `cache`
+directory in the root of this repo:
+
+```
+docker run -ti -v ./cache:/cache raimad-tooling sh -c 'cp -r /pythons /cache/ && cp -r /pyvenvs /cache/'
+```
+
+On subsequent builds of the image,
+compiling the pythons should be skipped.
+
+This isn't an optimal solution tho,
+as it will result in duplicating the python build directory
+on disk.
+I can't think of any way to avoid this
+(mount a volume while building? Hardlink? Reflink?)
+that avoids this.
+
 
 
 

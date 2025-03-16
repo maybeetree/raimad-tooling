@@ -45,6 +45,14 @@ do
 	shortversion="$(echo "$version" | cut -d. -f 1-2)"
 	shorterversion="$(echo "$version" | cut -d. -O "" -f 1-2)"
 
+	installprefix="/pythons/python$shortversion"
+
+	if [ -d "$installprefix" ]
+	then
+		echo "SKIP COMPILING PYTHON$shortversion -- EXISTS!"
+		continue
+	fi
+
 	echo "Downloading Python $version" > /dev/stderr
 	wget https://www.python.org/ftp/python/$version/Python-$version.tar.xz
 
@@ -53,11 +61,11 @@ do
 
 	echo "Building $version" > /dev/stderr
 
-	mkdir -p /pythons/python$shortversion
+	mkdir -p "$installprefix"
 	cd Python-$version
 
 	./configure \
-		--prefix=/pythons/python$shortversion \
+		--prefix="$installprefix" \
 		`# The following are adapted from the APKBUILD` \
 		--enable-ipv6 \
 		--enable-loadable-sqlite-extensions \
