@@ -16,3 +16,5 @@ exec /pyvenvs/venv-$shortversion/bin/python "'"$@"'"
 	chmod +x /usr/local/bin/python$shortversion
 done
 
+ln -sf /app/tooling-summary.sh /usr/local/bin/
+

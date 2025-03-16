@@ -2,14 +2,15 @@ FROM alpine:latest AS base
 # This "base" stage just sets these args so that they persist into
 # all other stages. Otherwise they would need to be re-specified
 # in each stage
-ARG PYTHONS="3.13.2 3.12.9 3.11.11 3.10.16"
+#ARG PYTHONS="3.13.2 3.12.9 3.11.11 3.10.16"
+ARG PYTHONS="3.12.9"
 ARG PIPMODULES="cift ruff coverage mypy"
 
 ENV PYTHONS=${PYTHONS}
 ENV PIPMODULES=${PIPMODULES}
 
 # These are needed for all stages
-RUN apk add --no-cache expat-dev
+RUN apk add --no-cache expat-dev sqlite-dev jq
 
 FROM base AS build-pythons
 COPY ./stage-build-pythons /app
@@ -35,4 +36,5 @@ COPY --from=install-modules /pyvenvs /pyvenvs
 COPY ./stage-finalize /app
 WORKDIR /app
 RUN ./finalize.sh
+WORKDIR /pwd
 
