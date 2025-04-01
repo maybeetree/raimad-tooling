@@ -3,7 +3,7 @@ FROM alpine:latest AS base
 # all other stages. Otherwise they would need to be re-specified
 # in each stage
 ARG PYTHONS="3.13.2 3.12.9 3.11.11 3.10.16"
-ARG PIPMODULES="cift ruff coverage mypy"
+ARG PIPMODULES="cift ruff coverage mypy ipython"
 
 ENV PYTHONS=${PYTHONS}
 ENV PIPMODULES=${PIPMODULES}
